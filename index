@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StyleAir</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(180deg,#fffaf3,#f2eadf,#ffffff);
+  color:#1f1f1f;
+}
+
+#app{
+  max-width:430px;
+  margin:auto;
+  padding:28px 18px 70px;
+  text-align:center;
+}
+
+.logo{
+  font-size:95px;
+  margin-top:25px;
+  animation:float 2.5s infinite;
+}
+
+@keyframes float{
+  50%{transform:translateY(-10px)}
+}
+
+h1{
+  font-size:48px;
+  margin:8px 0;
+}
+
+.subtitle{
+  color:#6d6258;
+  font-size:17px;
+  line-height:1.5;
+}
+
+.card{
+  background:white;
+  border-radius:30px;
+  padding:20px;
+  margin-top:22px;
+  box-shadow:0 14px 35px rgba(0,0,0,.09);
+}
+
+input,select{
+  width:100%;
+  box-sizing:border-box;
+  border:0;
+  background:#f3eee7;
+  padding:16px;
+  border-radius:18px;
+  font-size:16px;
+  margin-top:12px;
+}
+
+button{
+  width:100%;
+  border:0;
+  border-radius:20px;
+  padding:16px;
+  margin-top:14px;
+  font-size:17px;
+  font-weight:900;
+  color:white;
+  background:linear-gradient(135deg,#111,#4a4038);
+  cursor:pointer;
+}
+
+.styles{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:15px;
+}
+
+.style-btn{
+  background:white;
+  color:#111;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.result{
+  display:none;
+}
+
+.outfit{
+  background:#f7f3ee;
+  border-radius:24px;
+  padding:16px;
+  margin-top:14px;
+  text-align:right;
+}
+
+.items{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+
+.item{
+  background:white;
+  border-radius:18px;
+  padding:13px;
+}
+
+.tags{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.tag{
+  background:white;
+  border-radius:999px;
+  padding:7px 12px;
+  font-size:13px;
+}
+
+.shop{
+  display:block;
+  background:#111;
+  color:white;
+  text-decoration:none;
+  text-align:center;
+  padding:14px;
+  border-radius:18px;
+  margin-top:12px;
+  font-weight:900;
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+  <div class="logo">👕✨</div>
+
+  <h1>StyleAir</h1>
+
+  <p class="subtitle">
+    לא יודע מה ללבוש?  
+    בנה לוק לפי הסגנון, המידה, התקציב וההשראה שלך.
+  </p>
+
+  <div class="card">
+    <h2>בנה לי לוק</h2>
+
+    <input id="tiktok" placeholder="🔗 הדבק קישור מטיקטוק / השראה">
+
+    <select id="style">
+      <option value="Streetwear">Streetwear</option>
+      <option value="Old School">Old School</option>
+      <option value="Casual">Casual</option>
+      <option value="Elegant">Elegant</option>
+      <option value="Dark">Dark / Night</option>
+    </select>
+
+    <select id="size">
+      <option value="S">מידה S</option>
+      <option value="M">מידה M</option>
+      <option value="L">מידה L</option>
+      <option value="XL">מידה XL</option>
+    </select>
+
+    <select id="budget">
+      <option value="זול">תקציב זול</option>
+      <option value="בינוני">תקציב בינוני</option>
+      <option value="גבוה">תקציב גבוה</option>
+    </select>
+
+    <button onclick="buildLook()">✨ בנה לי לוק</button>
+  </div>
+
+  <div class="card">
+    <h2>סגנונות מהירים</h2>
+
+    <div class="styles">
+      <button class="style-btn" onclick="quickStyle('Streetwear')">👟 Street</button>
+      <button class="style-btn" onclick="quickStyle('Old School')">🧥 Old School</button>
+      <button class="style-btn" onclick="quickStyle('Casual')">👕 Casual</button>
+      <button class="style-btn" onclick="quickStyle('Elegant')">🕶️ Elegant</button>
+    </div>
+  </div>
+
+  <div id="result" class="card result">
+    <h2>הלוק שלך</h2>
+    <div id="outfits"></div>
+  </div>
+
+</div>
+
+<script>
+function quickStyle(style){
+  document.getElementById("style").value = style;
+  buildLook();
+}
+
+function buildLook(){
+  const style = document.getElementById("style").value;
+  const size = document.getElementById("size").value;
+  const budget = document.getElementById("budget").value;
+  const tiktok = document.getElementById("tiktok").value;
+
+  let title = "";
+  let items = [];
+
+  if(style === "Streetwear"){
+    title = "👟 Streetwear Fit";
+    items = ["חולצת אוברסייז", "ג׳ינס רחב", "סניקרס לבנות", "כובע / שרשרת"];
+  } else if(style === "Old School"){
+    title = "🧥 Old School Fit";
+    items = ["ג׳קט וינטג׳", "חולצה חלקה", "ג׳ינס ישר", "נעליים קלאסיות"];
+  } else if(style === "Casual"){
+    title = "👕 Casual Fit";
+    items = ["טי־שירט איכותית", "מכנס נוח", "סניקרס נקיות", "שעון פשוט"];
+  } else if(style === "Elegant"){
+    title = "🕶️ Elegant Fit";
+    items = ["חולצה מכופתרת", "מכנס מחויט", "נעליים נקיות", "בושם / משקפיים"];
+  } else{
+    title = "🌙 Dark Night Fit";
+    items = ["חולצה שחורה", "ג׳ינס שחור", "נעליים כהות", "אקססורי כסף"];
+  }
+
+  document.getElementById("result").style.display = "block";
+
+  document.getElementById("outfits").innerHTML = `
+    <div class="outfit">
+      <h3>${title}</h3>
+
+      <div class="items">
+        ${items.map(item => `<div class="item">🛍️ ${item}</div>`).join("")}
+      </div>
+
+      <div class="tags">
+        <span class="tag">מידה: ${size}</span>
+        <span class="tag">תקציב: ${budget}</span>
+        <span class="tag">סגנון: ${style}</span>
+      </div>
+
+      <p>
+        ${tiktok ? "הקישור מטיקטוק נשמר כהשראה 🔗" : "אפשר להדביק קישור מטיקטוק כדי לבנות לוק דומה."}
+      </p>
+
+      <a class="shop" href="https://www.google.com/search?q=${encodeURIComponent(style + ' outfit clothes ' + size)}" target="_blank">
+        🛒 חפש בגדים דומים
+      </a>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
